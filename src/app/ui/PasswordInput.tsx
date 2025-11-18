@@ -20,10 +20,11 @@ function PasswordInput({ password, setPassword }: { password: string, setPasswor
                     type="password"
                     required
                     placeholder="Password"
-                    minLength={8}
-                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                    title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
+                    minLength={4}
+                    // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}"
+                    title="Must be more than 4 characters"
                     value={password}
+                    name="password"
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </label>
