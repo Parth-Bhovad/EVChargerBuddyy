@@ -4,13 +4,14 @@ import UserNameInput from "./UserNameInput";
 import EmailInput from "./EmailInput";
 import PasswordInput from "./PasswordInput";
 import Button from "./Button";
+import {CreateUser} from "../lib/action";
 
 function Signup() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     return (
-        <>
+        <form action={CreateUser} className="grid">
             <div className="my-2">
                 <UserNameInput username={username} setUsername={setUsername} />
             </div>
@@ -22,9 +23,9 @@ function Signup() {
             </div>
 
             <div className="my-4">
-                <Button btnName="Sign Up"/>
+                <Button btnName="Sign Up" btnType="submit" />
             </div>
-        </>
+        </form>
      );
 }
 
