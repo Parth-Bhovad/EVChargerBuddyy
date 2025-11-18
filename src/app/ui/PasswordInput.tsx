@@ -29,8 +29,7 @@ function PasswordInput({ password, setPassword }: { password: string, setPasswor
                 />
             </label>
             <p className="validator-hint hidden">
-                Must be more than 8 characters, including
-                <br />At least one number <br />At least one lowercase letter <br />At least one uppercase letter
+                Must be more than 4 characters
             </p>
         </>
     );
