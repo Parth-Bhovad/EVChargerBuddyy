@@ -14,7 +14,7 @@ function EmailInput({email, setEmail}: {email:string, setEmail: (email:string)=>
                         <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                     </g>
                 </svg>
-                <input type="email" placeholder="mail@site.com" required value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input type="email" placeholder="mail@site.com" required value={email} name="email" onChange={(e) => setEmail(e.target.value)} />
             </label>
             <div className="validator-hint hidden">Enter valid email address</div>
         </>
