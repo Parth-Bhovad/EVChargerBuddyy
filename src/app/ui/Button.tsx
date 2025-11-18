@@ -1,6 +1,11 @@
-function Button({btnName}: {btnName: string}) {
+interface ButtonProps {
+    btnName: string;
+    btnType?: "button" | "submit" | "reset";
+}
+
+function Button({btnName, btnType = "button"}: ButtonProps) {
     return (
-        <button className="btn btn-block">{btnName}</button>
+        <button type={btnType} className="btn btn-block">{btnName}</button>
     );
 }
 
