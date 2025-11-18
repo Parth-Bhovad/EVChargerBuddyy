@@ -23,6 +23,7 @@ function UserNameInput({username, setUsername}: {username:string,setUsername: (u
                     maxLength={30}
                     title="Only letters, numbers or dash"
                     value={username}
+                    name="username"
                     onChange={(e) => setUsername(e.target.value)}
                 />
             </label>
