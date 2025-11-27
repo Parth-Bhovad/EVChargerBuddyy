@@ -1,18 +1,18 @@
-import { User } from "../model/User";
+import Profile from "../ui/Profile";
+import { auth } from "@/app/lib/auth"; // path to your Better Auth server instance
+import { headers } from "next/headers";
 
-async function Profile() {
+async function ProfilePage() {
+  const session = await auth.api.getSession({
+      headers: await headers() // you need to pass the headers object.
+  })
 
-  const user = await User.find({username: "user1"});
-  return ( 
+  return (
     <main className="h-screen">
       <h1>User Profile</h1>
-      <section>
-        <div>
-          Username: {user[0].username}
-        </div>
-      </section>
+      <Profile name={session?.user?.name} />
     </main>
-   );
+  );
 }
 
-export default Profile;
+export default ProfilePage;

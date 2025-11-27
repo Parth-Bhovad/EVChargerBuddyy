@@ -1,20 +1,15 @@
 "use client";
 import { useState } from "react";
-import UserNameInput from "./UserNameInput";
 import EmailInput from "./EmailInput";
 import PasswordInput from "./PasswordInput";
 import Button from "./Button";
-import {SignupUser} from "../lib/action";
+import { LoginUser } from "../lib/action";
 
-function Signup() {
-    const [username, setUsername] = useState("");
+function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     return (
-        <form action={SignupUser} className="grid">
-            <div className="my-2">
-                <UserNameInput username={username} setUsername={setUsername} />
-            </div>
+        <form action={LoginUser} className="grid">
             <div className="my-2">
                 <EmailInput email={email} setEmail={setEmail} />
             </div>
@@ -23,10 +18,10 @@ function Signup() {
             </div>
 
             <div className="my-4">
-                <Button btnName="Sign Up" btnType="submit" />
+                <Button btnName="Log In" btnType="submit" />
             </div>
         </form>
-     );
+    );
 }
 
-export default Signup;
+export default Login;

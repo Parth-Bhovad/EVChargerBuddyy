@@ -10,6 +10,9 @@ function Navbar() {
                 <Link href="/signup">Sign Up</Link>
             </div>
             <div className="flex-none">
+                <Link href="/login">Log In</Link>
+            </div>
+            <div className="flex-none">
                 <Link href="/profile">Profile</Link>
             </div>
         </div>
