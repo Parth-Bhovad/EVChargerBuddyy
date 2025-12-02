@@ -24,7 +24,7 @@ export async function connectDB(): Promise<Mongoose> {
 
   if (!cached.promise) {
     cached.promise = mongoose.connect(MONGODB_URI, {
-      dbName: "EVChargerBuddy",
+      dbName: "evchargerbuddy",
       bufferCommands: false,
     }).then((mongooseInstance) => {
       console.log("✅ Connected to MongoDB");
