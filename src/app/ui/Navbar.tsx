@@ -15,6 +15,9 @@ function Navbar() {
             <div className="flex-none">
                 <Link href="/profile">Profile</Link>
             </div>
+            <div className="flex-none">
+                <Link href="/charging-station">Add Charging Station</Link>
+            </div>
         </div>
     );
 }
