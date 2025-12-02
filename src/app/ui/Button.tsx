@@ -1,7 +1,7 @@
 interface ButtonProps {
     btnName: string;
     btnType?: "button" | "submit" | "reset";
-    onClick?: () => Promise<void>;
+    onClick?: (() => Promise<void>)| (() => void);
 }
 
 function Button({btnName, btnType = "button", onClick}: ButtonProps) {
