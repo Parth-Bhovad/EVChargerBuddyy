@@ -3,7 +3,8 @@ import { connectDB } from "./mongoose";
 import { User } from "../model/User";
 import { auth } from "../lib/auth";
 import { headers } from "next/dist/server/request/headers";
-// import { redirect } from "next/dist/server/api-utils";
+// import { redirect } from "next/dist/server/api-utils";\
+import { ChargingStation } from "../model/CharginSation";
 
 export async function CreateUser(formData: FormData) {
     await connectDB();
@@ -53,5 +54,24 @@ export async function LogoutUser() {
     await auth.api.signOut({
         // This endpoint requires session cookies.
         headers: await headers(),
+    });
+}
+
+export async function CreateChargingStation(formData: FormData) {
+    await connectDB();
+
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
+    await ChargingStation.create({
+        owner: session!.user.id,
+        location: {
+            type: "Point",
+            coordinates: [
+                parseFloat(formData.get("userLat") as string),
+                parseFloat(formData.get("userLong") as string),
+            ],
+        },
     });
 }
