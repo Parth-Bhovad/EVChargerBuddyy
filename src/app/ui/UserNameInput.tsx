@@ -1,7 +1,7 @@
 function UserNameInput({username, setUsername}: {username:string,setUsername: (username:string)=>void}) {
     return (
         <>
-            <label className="input validator">
+            <label className="input validator bg-[var(--brand-color-white)] text-[var(--brand-color-black)] border border-base-300 rounded-box flex items-center gap-2">
                 <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <g
                         strokeLinejoin="round"
