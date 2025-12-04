@@ -4,7 +4,7 @@ import { User } from "../model/User";
 import { auth } from "../lib/auth";
 import { headers } from "next/dist/server/request/headers";
 // import { redirect } from "next/dist/server/api-utils";\
-import { ChargingStation } from "../model/CharginSation";
+import { ChargingStation } from "../model/ChargingStation";
 
 export async function CreateUser(formData: FormData) {
     await connectDB();
