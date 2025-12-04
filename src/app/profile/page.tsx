@@ -4,12 +4,11 @@ import { headers } from "next/headers";
 
 async function ProfilePage() {
   const session = await auth.api.getSession({
-      headers: await headers() // you need to pass the headers object.
+    headers: await headers() // you need to pass the headers object.
   })
 
   return (
-    <main className="h-screen">
-      <h1>User Profile</h1>
+    <main className="max-w-[520px] mx-auto mt-12 p-5 h-screen flex flex-col items-center">
       <Profile name={session?.user?.name} />
     </main>
   );
