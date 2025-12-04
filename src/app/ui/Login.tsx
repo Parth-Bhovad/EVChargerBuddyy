@@ -9,18 +9,20 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     return (
-        <form action={LoginUser} className="grid">
-            <div className="my-2">
-                <EmailInput email={email} setEmail={setEmail} />
-            </div>
-            <div className="my-2">
-                <PasswordInput password={password} setPassword={setPassword} />
-            </div>
+        <fieldset className="fieldset border-base-300 rounded-box w-xs border p-4">
+            <form action={LoginUser} className="grid">
+                <div className="my-2">
+                    <EmailInput email={email} setEmail={setEmail} />
+                </div>
+                <div className="my-2">
+                    <PasswordInput password={password} setPassword={setPassword} />
+                </div>
 
-            <div className="my-4">
-                <Button btnName="Log In" btnType="submit" />
-            </div>
-        </form>
+                <div className="my-4">
+                    <Button btnName="Log In" btnType="submit" />
+                </div>
+            </form>
+        </fieldset>
     );
 }
 
