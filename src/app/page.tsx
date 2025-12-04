@@ -2,7 +2,7 @@ import Hero from "@/app/ui/Hero"
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-white text-slate-900">
+    <div className="min-h-screen flex flex-col bg-[var(--brand-color-white)] text-slate-900">
 
       <Hero />
 
