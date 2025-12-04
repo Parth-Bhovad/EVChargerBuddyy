@@ -6,7 +6,7 @@ interface ButtonProps {
 
 function Button({btnName, btnType = "button", onClick}: ButtonProps) {
     return (
-        <button type={btnType} className="btn btn-block" onClick={onClick}>{btnName}</button>
+        <button type={btnType} className="btn btn-block rounded-box font-bold text-[var(--brand-color-white)]" onClick={onClick}>{btnName}</button>
     );
 }
 
