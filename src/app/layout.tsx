@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./ui/Navbar";
 import Footer from "./ui/Footer";
+import UserLocationProvider from "./context/UserLocationContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,10 +30,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[var(--brand-color-white)] text-[var(--brand-color-black)]`}
       >
+      <UserLocationProvider>
         <Navbar />
         {children}
         {/* Footer */}
         <Footer />
+      </UserLocationProvider>
       </body>
     </html>
   );
