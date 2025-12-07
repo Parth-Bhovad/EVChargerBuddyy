@@ -1,6 +1,7 @@
 import MapWrapper from "../ui/MapWrapper";
 import { ChargingStation } from "../model/ChargingStation";
 import { connectDB } from "../lib/mongoose";
+import RangeSlider from "../ui/RangeSlider";
 
 export default async function Home() {
   const nearbyStations = async () => {
@@ -30,6 +31,9 @@ export default async function Home() {
         <MapWrapper stations={locations} />
       </section>
       <section className="h-1/2 overflow-auto">
+        <div className="w-full px-4 pt-4">
+          <RangeSlider />
+        </div>
         <div className="flex flex-wrap items-center justify-between gap-2 p-4">
           <div>
             <p className="text-xs font-medium uppercase tracking-wide text-green-700">
