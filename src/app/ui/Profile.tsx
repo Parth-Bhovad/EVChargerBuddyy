@@ -20,6 +20,9 @@ function Profile({ name }: { name: string | undefined }) {
                 <li className="list-row rounded-none border-b border-base-300 flex justify-between items-center">
                     <Link href="/charging-station">Add Charging Station</Link>
                 </li>
+                <li className="list-row rounded-none border-b border-base-300 flex justify-between items-center">
+                    <Link href="/your-charging-stations">Your Charging Station</Link>
+                </li>
                 <li className="list-row">
                     <Button btnName="Logout" onClick={LogoutUser} />
                 </li>
