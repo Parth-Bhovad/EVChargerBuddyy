@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { useMapEvents } from 'react-leaflet/hooks'
 import RouteMachine from './RouteMachine';
 import { useUserLocationContext } from '../context/UserLocationContext';
+import { useNearByStationsContext } from '../context/NearByStationsContext';
 
 function LocationMarker() {
   // const [position, setPosition] = useState(null)
@@ -38,9 +39,10 @@ L.Icon.Default.mergeOptions({
     'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-const LeafletMap = ({ stations }) => {
+const LeafletMap = () => {
   const position: [number, number] = [19.6967, 72.7655]; // Palghar
   const { userLocation } = useUserLocationContext();
+  const { stations } = useNearByStationsContext();
   const [destination, setDestination] = useState<[number, number] | null>(null);
   return (
     <MapContainer
@@ -56,7 +58,7 @@ const LeafletMap = ({ stations }) => {
       {stations.map((station, index) => (
         <Marker
           key={index}
-          position={[station[0], station[1]]}
+          position={[station.location.coordinates[0], station.location.coordinates[1]]}
           eventHandlers={
             {
               click: (e) => {
