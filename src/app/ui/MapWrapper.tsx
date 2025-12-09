@@ -6,9 +6,9 @@ const LeafletMap = dynamic(() => import('../ui/Map'), {
     ssr: false,
 });
 
-function MapWrapper({stations}) {
+function MapWrapper() {
     return (
-        <LeafletMap stations={stations} />
+        <LeafletMap />
     );
 }
 
