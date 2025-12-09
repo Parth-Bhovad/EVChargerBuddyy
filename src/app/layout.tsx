@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./ui/Navbar";
 import Footer from "./ui/Footer";
 import UserLocationProvider from "./context/UserLocationContext";
+import { NearByStationsProvider } from "./context/NearByStationsContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,12 +31,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[var(--brand-color-white)] text-[var(--brand-color-black)]`}
       >
-      <UserLocationProvider>
-        <Navbar />
-        {children}
-        {/* Footer */}
-        <Footer />
-      </UserLocationProvider>
+        <UserLocationProvider>
+          <NearByStationsProvider>
+            <Navbar />
+            <main className="min-h-[calc(100vh-8rem)]">{children}</main>
+            <Footer />
+          </NearByStationsProvider>
+        </UserLocationProvider>
       </body>
     </html>
   );
