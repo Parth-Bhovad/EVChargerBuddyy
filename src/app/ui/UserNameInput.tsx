@@ -1,4 +1,4 @@
-function UserNameInput({username, setUsername}: {username:string,setUsername: (username:string)=>void}) {
+function UserNameInput() {
     return (
         <>
             <label className="input validator bg-[var(--brand-color-white)] text-[var(--brand-color-black)] border border-base-300 rounded-box flex items-center gap-2">
@@ -22,9 +22,7 @@ function UserNameInput({username, setUsername}: {username:string,setUsername: (u
                     minLength={3}
                     maxLength={30}
                     title="Only letters, numbers or dash"
-                    value={username}
                     name="username"
-                    onChange={(e) => setUsername(e.target.value)}
                 />
             </label>
             <p className="validator-hint hidden">
