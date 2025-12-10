@@ -1,4 +1,4 @@
-function PasswordInput({ password, setPassword }: { password: string, setPassword: (password: string) => void }) {
+function PasswordInput() {
     return (
         <>
             <label className="input validator bg-[var(--brand-color-white)] text-[var(--brand-color-black)] border border-base-300 rounded-box flex items-center gap-2">
@@ -23,9 +23,7 @@ function PasswordInput({ password, setPassword }: { password: string, setPasswor
                     minLength={4}
                     // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}"
                     title="Must be more than 4 characters"
-                    value={password}
                     name="password"
-                    onChange={(e) => setPassword(e.target.value)}
                     className="text-[var(--brand-color-black)]"
                 />
             </label>
