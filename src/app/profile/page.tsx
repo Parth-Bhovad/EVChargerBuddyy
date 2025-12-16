@@ -9,7 +9,7 @@ async function ProfilePage() {
 
   return (
     <main className="max-w-[520px] mx-auto mt-12 p-5 h-screen flex flex-col items-center">
-      <Profile name={session?.user?.name} />
+      <Profile name={session!.user!.name} />
     </main>
   );
 }
