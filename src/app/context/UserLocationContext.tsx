@@ -9,7 +9,7 @@ const UserLocationContext = createContext<{
 
 export const useUserLocationContext = () => {
     const context = useContext(UserLocationContext);
-    if (context === undefined) {
+    if (context === null) {
         throw new Error('useUserLocation must be used within a UserLocationProvider');
     }
     return context;
