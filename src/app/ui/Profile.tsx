@@ -4,7 +4,7 @@ import Link from "next/link";
 import { LogoutUser } from "../lib/action";
 import Button from "../ui/Button";
 
-function Profile({ name }: { name: string | undefined }) {
+function Profile({ name }: { name: string}) {
     return (
         <>
             <div className="avatar avatar-placeholder">
