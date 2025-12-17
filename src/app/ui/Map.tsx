@@ -1,14 +1,15 @@
 'use client';
 
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import L from 'leaflet';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMapEvents } from 'react-leaflet/hooks'
 import RouteMachine from './RouteMachine';
 import { useUserLocationContext } from '../context/UserLocationContext';
 import { useNearByStationsContext } from '../context/NearByStationsContext';
+import { toORSCoord } from '../lib/helper';
 
 function LocationMarker() {
   // const [position, setPosition] = useState(null)
@@ -44,6 +45,27 @@ const LeafletMap = () => {
   const { userLocation } = useUserLocationContext();
   const { stations } = useNearByStationsContext();
   const [destination, setDestination] = useState<[number, number] | null>(null);
+  const [polyline, setPolyline] = useState<Array<[number, number]>>([
+    [49.41461, 8.681495],
+    [49.420318, 8.687872]
+  ]);
+
+  useEffect(() => {
+    if(!userLocation && !destination) return;
+    const callAPI = async () => {
+      // const response = await fetch(`/api/get-route?start=72.779162,19.572699&end=72.8114,19.5866`);
+      const response = await fetch(`/api/get-route?start=${toORSCoord(userLocation!).join(',')}&end=${toORSCoord(destination!).join(',')}`);
+      const data = await response.json();
+      console.log(data);
+      console.log(data.features[0].geometry.coordinates);
+      const coords = data.features[0].geometry.coordinates;
+      const latlngs = coords.map(coord => [coord[1], coord[0]]);
+      setPolyline(latlngs);
+    }
+    callAPI();
+  }, [destination, userLocation]);
+  const limeOptions = { color: 'lime' }
+
   return (
     <MapContainer
       center={position}
@@ -73,7 +95,7 @@ const LeafletMap = () => {
         </Marker>
       ))}
       <LocationMarker />
-      {destination && userLocation && <RouteMachine from={userLocation} to={destination} />}
+      {destination && userLocation && <Polyline pathOptions={limeOptions} positions={polyline} />}
     </MapContainer>
   );
 };
