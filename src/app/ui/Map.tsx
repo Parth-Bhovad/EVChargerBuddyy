@@ -1,6 +1,6 @@
 'use client';
 
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 import L from 'leaflet';
@@ -10,6 +10,7 @@ import RouteMachine from './RouteMachine';
 import { useUserLocationContext } from '../context/UserLocationContext';
 import { useNearByStationsContext } from '../context/NearByStationsContext';
 import { toORSCoord } from '../lib/helper';
+import { useUserDestinationContext } from '../context/UserDestinationContext';
 
 function LocationMarker() {
   // const [position, setPosition] = useState(null)
@@ -19,8 +20,11 @@ function LocationMarker() {
       map.locate()
     },
     locationfound(e) {
-      setUserLocation([e.latlng.lat, e.latlng.lng])
-      map.flyTo(e.latlng, map.getZoom())
+      const userCurrentPointer = [e.latlng.lat, e.latlng.lng].join(',');
+      if (userLocation?.join(',') !== userCurrentPointer) {
+        setUserLocation([e.latlng.lat, e.latlng.lng])
+        map.flyTo(e.latlng, map.getZoom())
+      };
     },
   })
 
@@ -44,27 +48,36 @@ const LeafletMap = () => {
   const position: [number, number] = [19.6967, 72.7655]; // Palghar
   const { userLocation } = useUserLocationContext();
   const { stations } = useNearByStationsContext();
-  const [destination, setDestination] = useState<[number, number] | null>(null);
+  // const [destination, setDestination] = useState<[number, number] | null>(null);
   const [polyline, setPolyline] = useState<Array<[number, number]>>([
     [49.41461, 8.681495],
     [49.420318, 8.687872]
   ]);
+  //station distance in KM
+  const [stationDistance, setStationDistance] = useState<number | null>(null);
+  //time needed to reach station in minutes
+  const [destinationTime, setDestinationTime] = useState<number | null>(null);
+
+  const { userDestination, setUserDestination } = useUserDestinationContext();
 
   useEffect(() => {
-    if(!userLocation && !destination) return;
+    //Return if userLocation or destination is null
+    if (!userLocation || !userDestination) return;
     const callAPI = async () => {
       // const response = await fetch(`/api/get-route?start=72.779162,19.572699&end=72.8114,19.5866`);
-      const response = await fetch(`/api/get-route?start=${toORSCoord(userLocation!).join(',')}&end=${toORSCoord(destination!).join(',')}`);
+      const response = await fetch(`/api/get-route?start=${toORSCoord(userLocation!).join(',')}&end=${toORSCoord(userDestination!).join(',')}`);
       const data = await response.json();
       console.log(data);
       console.log(data.features[0].geometry.coordinates);
       const coords = data.features[0].geometry.coordinates;
       const latlngs = coords.map(coord => [coord[1], coord[0]]);
       setPolyline(latlngs);
+      setStationDistance(data.features[0].properties.summary.distance / 1000); //in KM
+      setDestinationTime(data.features[0].properties.summary.duration / 60); //in minutes
     }
     callAPI();
-  }, [destination, userLocation]);
-  const limeOptions = { color: 'lime' }
+  }, [userDestination, userLocation]);
+  const limeOptions = { color: 'blue' }
 
   return (
     <MapContainer
@@ -85,17 +98,26 @@ const LeafletMap = () => {
             {
               click: (e) => {
                 console.log(e);
-                setDestination([e.latlng.lat, e.latlng.lng]);
+                const currentPointer = [e.latlng.lat, e.latlng.lng].join(',');
+                if (currentPointer !== userDestination?.join(',')) {
+                  setUserDestination([e.latlng.lat, e.latlng.lng]);
+                }
               }
 
             }
           }
         >
-          <Popup>{index}</Popup>
+          <Popup>{station.stationName || index}</Popup>
         </Marker>
       ))}
       <LocationMarker />
-      {destination && userLocation && <Polyline pathOptions={limeOptions} positions={polyline} />}
+      {userDestination && userLocation && (
+        <Polyline pathOptions={limeOptions} positions={polyline}>
+          <Tooltip direction="bottom" offset={[0, 20]} opacity={1} permanent position={userDestination}>
+            {stationDistance && destinationTime ? `Distance: ${stationDistance.toFixed(2)} Km, ETA: ${destinationTime.toFixed(0)} mins` : 'Calculating route...'}
+          </Tooltip>
+        </Polyline>
+      )}
     </MapContainer>
   );
 };
