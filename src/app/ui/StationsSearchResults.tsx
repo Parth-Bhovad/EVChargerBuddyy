@@ -1,8 +1,10 @@
 "use client";
 import { useNearByStationsContext } from "../context/NearByStationsContext";
+import { useUserDestinationContext } from "../context/UserDestinationContext";
 
 function StationSearchResults() {
     const { stations } = useNearByStationsContext();
+    const { userDestination,setUserDestination } = useUserDestinationContext();
 
     return (
     <>
@@ -57,12 +59,22 @@ function StationSearchResults() {
                         </div>
                     </div>
 
+                    {
+                        [station.location.coordinates[0], station.location.coordinates[1]].join(',') === userDestination?.join(',')
+                        ? (
+                            <button>
+                                Start Journey
+                            </button>
+                        ) : null
+
+                    }
+
                     {/* “Focus on map” button (optional) */}
                     <button
                         type="button"
                         className="mt-1 rounded-lg border border-gray-200 px-2 py-1 text-xs font-medium text-gray-700 hover:border-green-400 hover:text-green-700"
-                    // onClick={() => focus this station on map via context / props later}
-                    >
+                        onClick={() => setUserDestination([station.location.coordinates[0], station.location.coordinates[1]])}
+                        >
                         View on map
                     </button>
                 </li>
