@@ -1,6 +1,5 @@
 import MapWrapper from "../ui/MapWrapper";
-import RangeSlider from "../ui/RangeSlider";
-import StationSearchResults from "../ui/StationsSearchResults";
+import StationSearchPanel from "../ui/StationSearchPanel";
 
 export default async function Home() {
   return (
@@ -8,12 +7,7 @@ export default async function Home() {
       <section className="h-1/2">
         <MapWrapper />
       </section>
-      <section className="h-1/2 overflow-auto">
-        <div className="w-full px-4 pt-4">
-          <RangeSlider />
-        </div>
-        <StationSearchResults />
-      </section>
+      <StationSearchPanel />
     </main>
   );
 }
