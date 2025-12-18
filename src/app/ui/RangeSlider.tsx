@@ -4,11 +4,13 @@ import { useState, useMemo, useEffect } from "react";
 import debounce from "lodash.debounce";
 import { useUserLocationContext } from '../context/UserLocationContext';
 import { useNearByStationsContext } from '../context/NearByStationsContext';
+import { useUserDestinationContext } from '../context/UserDestinationContext';
 
 function RangeSlider() {
     const [radius, setRadius] = useState(5);
     const { userLocation } = useUserLocationContext();
     const { setStations } = useNearByStationsContext();
+    const { setUserDestination } = useUserDestinationContext();
 
     // async function fetchStations(radius: number, userLocation: [number, number] | null) {
     //     console.log(`Fetching stations within radius: ${radius} Km`);
@@ -23,17 +25,19 @@ function RangeSlider() {
     // );
 
     useEffect(() => {
+            if(!userLocation) return;
         async function fetchStations() {
             console.log(`Fetching stations within radius: ${radius} Km`);
             const res = await fetch(`/api/near-by-stations?radius=${radius}&lat=${userLocation[0]}&lng=${userLocation[1]}`);
             const data = await res.json();
             console.log(data);
             setStations(data.stations);
+            setUserDestination([data.stations[0].location.coordinates[0], data.stations[0].location.coordinates[1]]);
             // setStations(data.stations.map((station: any) => [station.location.coordinates[0], station.location.coordinates[1]]));
             // console.log(await res.json());
         }
         fetchStations();
-    }, [setStations, radius, userLocation]);
+    }, [setStations, radius, userLocation, setUserDestination]);
 
 
     // const handleRadiusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
