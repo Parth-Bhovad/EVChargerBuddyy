@@ -1,5 +1,5 @@
 import MapWrapper from "../ui/MapWrapper";
-import StationSearchPanel from "../ui/StationSearchPanel";
+import BottomPanel from "../ui/BottomPanel";
 
 export default async function Home() {
   return (
@@ -7,7 +7,7 @@ export default async function Home() {
       <section className="h-1/2">
         <MapWrapper />
       </section>
-      <StationSearchPanel />
+      <BottomPanel />
     </main>
   );
 }
