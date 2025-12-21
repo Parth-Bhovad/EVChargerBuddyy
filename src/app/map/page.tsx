@@ -7,7 +7,9 @@ export default async function Home() {
       <section className="h-1/2">
         <MapWrapper />
       </section>
-      <BottomPanel />
+      <section className="h-1/2">
+        <BottomPanel />
+      </section>
     </main>
   );
 }

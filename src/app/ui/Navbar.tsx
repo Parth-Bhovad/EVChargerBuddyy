@@ -2,7 +2,7 @@ import Link from "next/link";
 
 function Navbar() {
     return (
-        <div className="drawer bg-[var(--brand-color-black)] text-[var(--brand-color-white)]">
+        <div className="drawer bg-[var(--brand-color-black)] text-[var(--brand-color-white)] z-50 sticky top-0">
             <div className="drawer-content flex flex-col">
                 {/* Navbar */}
                 <div className="navbar bg-base-300 w-full">

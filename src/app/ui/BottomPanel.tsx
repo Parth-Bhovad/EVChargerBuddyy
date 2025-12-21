@@ -9,10 +9,12 @@ function BottomPanel() {
 
     if (ShowRouteInfo) {
         return (
-            <>
+            <div className='h-full'>
                 <RouteInfo />
-                <Button btnName="Cancel Journey" onClick={() => setShowRouteInfo(false)}/>
-            </>);
+                <div className="w-full my-6">
+                    <Button btnName="Cancel Journey" onClick={() => setShowRouteInfo(false)}/>
+                </div>
+            </div>);
     }
     return (
         <StationSearchPanel />

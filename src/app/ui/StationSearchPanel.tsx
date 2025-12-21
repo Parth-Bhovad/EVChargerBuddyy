@@ -9,19 +9,19 @@ function StationSearchPanel() {
 
     if (!userLocation) {
         return (
-            <section className="h-1/2 overflow-auto flex items-center justify-center">
+            <div className="h-full flex items-center justify-center">
                 <span className="skeleton skeleton-text">Click on The Map to Get Your Live Location</span>
-            </section>
+            </div>
         );
     }
 
     return (
-        <section className="h-1/2 overflow-auto">
+        <div className="h-full overflow-auto">
                 <div className="w-full px-4 pt-4">
                     <RangeSlider />
                 </div>
                 <StationSearchResults />
-        </section>
+        </div>
     );
 }
 

@@ -93,7 +93,7 @@ const LeafletMap = () => {
     <MapContainer
       center={position}
       zoom={13}
-      style={{ height: '100%', width: '100%', borderRadius: '12px' }}
+      style={{ height: '100%', width: '100%', borderRadius: '12px', zIndex: 40 }}
       scrollWheelZoom={true}
     >
       <TileLayer
