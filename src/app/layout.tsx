@@ -6,6 +6,8 @@ import Footer from "./ui/Footer";
 import UserLocationProvider from "./context/UserLocationContext";
 import { NearByStationsProvider } from "./context/NearByStationsContext";
 import UserDestinationProvider from "./context/UserDestinationContext";
+import ShowRouteInfoProvider from "./context/ShowRouteInfoContext";
+import RouteStepsProvider from "./context/RouteStepsContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,9 +37,13 @@ export default function RootLayout({
         <UserLocationProvider>
           <NearByStationsProvider>
             <UserDestinationProvider>
-              <Navbar />
-              <main className="min-h-[calc(100vh-8rem)]">{children}</main>
-              <Footer />
+              <ShowRouteInfoProvider>
+                <RouteStepsProvider>
+                  <Navbar />
+                  <main className="min-h-[calc(100vh-8rem)]">{children}</main>
+                  <Footer />
+                </RouteStepsProvider>
+              </ShowRouteInfoProvider>
             </UserDestinationProvider>
           </NearByStationsProvider>
         </UserLocationProvider>
