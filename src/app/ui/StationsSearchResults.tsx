@@ -1,10 +1,12 @@
 "use client";
 import { useNearByStationsContext } from "../context/NearByStationsContext";
 import { useUserDestinationContext } from "../context/UserDestinationContext";
+import { useShowRouteInfoContext } from "../context/ShowRouteInfoContext";
 
 function StationSearchResults() {
     const { stations } = useNearByStationsContext();
     const { userDestination,setUserDestination } = useUserDestinationContext();
+    const { setShowRouteInfo } = useShowRouteInfoContext();
 
     return (
     <>
@@ -62,7 +64,9 @@ function StationSearchResults() {
                     {
                         [station.location.coordinates[0], station.location.coordinates[1]].join(',') === userDestination?.join(',')
                         ? (
-                            <button>
+                            <button onClick={() => {
+                                setShowRouteInfo(true);
+                            }}>
                                 Start Journey
                             </button>
                         ) : null
