@@ -11,6 +11,7 @@ import { useUserLocationContext } from '../context/UserLocationContext';
 import { useNearByStationsContext } from '../context/NearByStationsContext';
 import { toORSCoord } from '../lib/helper';
 import { useUserDestinationContext } from '../context/UserDestinationContext';
+import { useRouteStepsContext } from '../context/RouteStepsContext';
 
 function LocationMarker() {
   // const [position, setPosition] = useState(null)
@@ -48,6 +49,7 @@ const LeafletMap = () => {
   const position: [number, number] = [19.6967, 72.7655]; // Palghar
   const { userLocation } = useUserLocationContext();
   const { stations } = useNearByStationsContext();
+  const {setRouteSteps} = useRouteStepsContext();
   // const [destination, setDestination] = useState<[number, number] | null>(null);
   const [polyline, setPolyline] = useState<Array<[number, number]>>([
     [49.41461, 8.681495],
@@ -74,9 +76,17 @@ const LeafletMap = () => {
       setPolyline(latlngs);
       setStationDistance(data.features[0].properties.summary.distance / 1000); //in KM
       setDestinationTime(data.features[0].properties.summary.duration / 60); //in minutes
+      const routeSteps = data.features[0].properties.segments[0].steps.map((step) => ({
+        distance: step.distance,
+        duration: step.duration,
+        instruction: step.instruction
+      }));
+      console.log(routeSteps);
+      
+      setRouteSteps(routeSteps);
     }
     callAPI();
-  }, [userDestination, userLocation]);
+  }, [userDestination, userLocation, setRouteSteps]);
   const limeOptions = { color: 'blue' }
 
   return (
