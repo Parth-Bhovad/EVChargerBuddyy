@@ -25,16 +25,14 @@ function RangeSlider() {
     // );
 
     useEffect(() => {
-            if(!userLocation) return;
+        if (!userLocation) return;
         async function fetchStations() {
             console.log(`Fetching stations within radius: ${radius} Km`);
-            const res = await fetch(`/api/near-by-stations?radius=${radius}&lat=${userLocation[0]}&lng=${userLocation[1]}`);
+            const res = await fetch(`/api/near-by-stations?radius=${radius}&lat=${userLocation![0]}&lng=${userLocation![1]}`);
             const data = await res.json();
             console.log(data);
             setStations(data.stations);
             setUserDestination([data.stations[0].location.coordinates[0], data.stations[0].location.coordinates[1]]);
-            // setStations(data.stations.map((station: any) => [station.location.coordinates[0], station.location.coordinates[1]]));
-            // console.log(await res.json());
         }
         fetchStations();
     }, [setStations, radius, userLocation, setUserDestination]);
@@ -48,7 +46,7 @@ function RangeSlider() {
     return (
         <div className="w-full">
             <label htmlFor="range">Range</label>
-            <input type="range" min={0} max="15" value={radius} className="range w-full" step="5" id="range" onChange={(e)=> setRadius(Number(e.target.value))} />
+            <input type="range" min={0} max="15" value={radius} className="range w-full" step="5" id="range" onChange={(e) => setRadius(Number(e.target.value))} />
             <div className="flex justify-between px-2.5 mt-2 text-xs w-full">
                 <span>|</span>
                 <span>|</span>
