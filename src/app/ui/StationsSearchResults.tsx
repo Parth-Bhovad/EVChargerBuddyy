@@ -39,7 +39,7 @@ function StationSearchResults() {
 
         <ul className="list rounded-box shadow-md w-full mt-8 border border-base-300">
             {stations.map((station, i) => (
-                <li key={i} className="list-row rounded-none border-b border-base-300 flex justify-between items-center">
+                <li key={i} className="list-row rounded-none border-b border-base-300 font-medium flex justify-between items-center">
                     <div>
                         <p className="text-sm font-semibold">
                             {station.stationName || `Station #${i + 1}`}
@@ -52,19 +52,22 @@ function StationSearchResults() {
                         {/* Placeholder for future fields */}
                         <div className="mt-1 flex flex-wrap gap-1 text-[11px] text-gray-600">
                             {/* Example tags you can wire later from DB */}
-                            <span className="rounded-full bg-gray-100 px-2 py-0.5">
+                            <span className="rounded-full bg-gray-300 px-2 py-0.5">
                                 Fast charging
                             </span>
-                            <span className="rounded-full bg-gray-100 px-2 py-0.5">
+                            <span className="rounded-full bg-gray-300 px-2 py-0.5">
                                 24×7 open
                             </span>
                         </div>
                     </div>
 
-                    {
+                   <div className="flex items-center gap-2">
+                     {
                         [station.location.coordinates[0], station.location.coordinates[1]].join(',') === userDestination?.join(',')
                         ? (
-                            <button onClick={() => {
+                            <button 
+                            className="mt-1 rounded-lg border border-gray-400 px-3 py-2 text-xs font-medium text-gray-700"
+                            onClick={() => {
                                 setShowRouteInfo(true);
                             }}>
                                 Start Journey
@@ -76,11 +79,12 @@ function StationSearchResults() {
                     {/* “Focus on map” button (optional) */}
                     <button
                         type="button"
-                        className="mt-1 rounded-lg border border-gray-200 px-2 py-1 text-xs font-medium text-gray-700 hover:border-green-400 hover:text-green-700"
+                        className="mt-1 rounded-lg border border-gray-400 px-3 py-2 text-xs font-medium text-gray-700"
                         onClick={() => setUserDestination([station.location.coordinates[0], station.location.coordinates[1]])}
                         >
                         View on map
                     </button>
+                   </div>
                 </li>
             ))}
         </ul>
