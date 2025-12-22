@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     const response = await fetch(`https://api.openrouteservice.org/v2/directions/driving-car/geojson`, {
         method: 'POST',
         headers: {
-            'Authorization': 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjU3OGE5ZWRlMWQxODQwNzE5MWQyM2E0YzE4ZjAwZTQ3IiwiaCI6Im11cm11cjY0In0=',
+            'Authorization': apiKey!,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -23,7 +23,6 @@ export async function GET(request: NextRequest) {
         })
     });
     const data = await response.json();
-    console.log(data);
     
     return NextResponse.json(data);
 }
