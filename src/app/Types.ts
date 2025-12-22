@@ -8,3 +8,9 @@ export type RouteSteps = Array<{
     duration: number;
     instruction: string;
 }>;
+
+export type ChargingStationProps = Array<{
+    stationName: string;
+    location: [number, number];
+    owner: string;
+}>;
