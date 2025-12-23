@@ -5,6 +5,7 @@ import debounce from "lodash.debounce";
 import { useUserLocationContext } from '../context/UserLocationContext';
 import { useNearByStationsContext } from '../context/NearByStationsContext';
 import { useUserDestinationContext } from '../context/UserDestinationContext';
+import { NearByStationsResponse } from "../Types";
 
 function RangeSlider() {
     const [radius, setRadius] = useState(5);
@@ -29,10 +30,12 @@ function RangeSlider() {
         async function fetchStations() {
             console.log(`Fetching stations within radius: ${radius} Km`);
             const res = await fetch(`/api/near-by-stations?radius=${radius}&lat=${userLocation![0]}&lng=${userLocation![1]}`);
-            const data = await res.json();
-            console.log(data);
-            setStations(data.stations);
-            setUserDestination([data.stations[0].location.coordinates[0], data.stations[0].location.coordinates[1]]);
+            const data: NearByStationsResponse = await res.json();
+            if (data.status === "success") {
+                console.log(data);
+                setStations(data.stations);
+                setUserDestination([data.stations[0].location.coordinates[0], data.stations[0].location.coordinates[1]]);
+            }
         }
         fetchStations();
     }, [setStations, radius, userLocation, setUserDestination]);
