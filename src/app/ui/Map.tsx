@@ -12,6 +12,7 @@ import { useNearByStationsContext } from '../context/NearByStationsContext';
 import { toORSCoord } from '../lib/helper';
 import { useUserDestinationContext } from '../context/UserDestinationContext';
 import { useRouteStepsContext } from '../context/RouteStepsContext';
+import {GetRouteResponse} from '../Types';
 
 function LocationMarker() {
   // const [position, setPosition] = useState(null)
@@ -67,23 +68,18 @@ const LeafletMap = () => {
     if (!userLocation || !userDestination) return;
     const callAPI = async () => {
       // const response = await fetch(`/api/get-route?start=72.779162,19.572699&end=72.8114,19.5866`);
-      const response = await fetch(`/api/get-route?start=${toORSCoord(userLocation!).join(',')}&end=${toORSCoord(userDestination!).join(',')}`);
-      const data = await response.json();
-      console.log(data);
-      console.log(data.features[0].geometry.coordinates);
-      const coords = data.features[0].geometry.coordinates;
-      const latlngs = coords.map(coord => [coord[1], coord[0]]);
-      setPolyline(latlngs);
-      setStationDistance(data.features[0].properties.summary.distance / 1000); //in KM
-      setDestinationTime(data.features[0].properties.summary.duration / 60); //in minutes
-      const routeSteps = data.features[0].properties.segments[0].steps.map((step) => ({
-        distance: step.distance,
-        duration: step.duration,
-        instruction: step.instruction
-      }));
-      console.log(routeSteps);
-      
-      setRouteSteps(routeSteps);
+      const response = await fetch(`/api/get-route?start=${toORSCoord(userLocation!).join(',')}&end=${toORSCoord(userDestination!).join(',')}&preference=shortest`);
+      const data:GetRouteResponse = await response.json();
+
+      if(data.status === "error"){
+        console.error("Error fetching route:", data.error);
+        return;
+      }
+      const {coordinates, distance, duration, steps} = data.data;
+      setPolyline(coordinates);
+      setStationDistance(distance); //in KM
+      setDestinationTime(duration / 60); //in minutes
+      setRouteSteps(steps);
     }
     callAPI();
   }, [userDestination, userLocation, setRouteSteps]);
