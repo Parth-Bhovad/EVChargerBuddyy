@@ -1,20 +1,11 @@
 "use client";
 
 import { createContext, useState, useContext } from 'react';
-
-interface stations{
-    _id: string;
-    location: {
-        type: string;
-        coordinates: [number, number];
-    };
-    owner: string;
-    stationName: string;
-}
+import { Stations } from '../Types';
 
 const NearByStationsContext = createContext<{
-    stations: stations[];
-    setStations: React.Dispatch<React.SetStateAction<stations[]>>;
+    stations: Stations;
+    setStations: React.Dispatch<React.SetStateAction<Stations>>;
 } | null>(null);
 
 export const useNearByStationsContext = () => {
@@ -26,7 +17,7 @@ export const useNearByStationsContext = () => {
 };
 
 export const NearByStationsProvider = ({ children }: { children: React.ReactNode }) => {
-    const [stations, setStations] = useState<stations[]>([]);
+    const [stations, setStations] = useState<Stations>([]);
 
     return (
         <NearByStationsContext.Provider value={{ stations, setStations }}>
