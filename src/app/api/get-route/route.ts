@@ -1,10 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
+import { RouteQuerySchema } from "@/app/lib/schemas";
+import { GetRouteResponse } from "@/app/Types";
 
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
-    const start = searchParams.get("start");
-    const end = searchParams.get("end");
-    const preference = searchParams.get("preference") || "shortest";
+    const rawParams = {
+        start: searchParams.get("start"),
+        end: searchParams.get("end"),
+        preference: searchParams.get("preference"),
+    };
+
+    const parsed = RouteQuerySchema.safeParse(rawParams);
+
+    if (!parsed.success) {
+        return NextResponse.json<GetRouteResponse>(
+            { error: parsed.error.message, status: "error" },
+        );
+    }
+
+    const { start, end, preference } = parsed.data;
 
     const apiKey = process.env.ORS_API_KEY;
 
@@ -16,13 +30,21 @@ export async function GET(request: NextRequest) {
         },
         body: JSON.stringify({
             coordinates: [
-                start ? start.split(',').map(Number) : [72.779162, 19.572699],
-                end ? end.split(',').map(Number) : [72.8114, 19.5866]
+                start,
+                end
             ],
-            preference: preference
+            preference
         })
     });
     const data = await response.json();
-    
-    return NextResponse.json(data);
+    const coords = data.features[0].geometry.coordinates;
+    const coordinates = coords.map((coord: [number, number]) => [coord[1], coord[0]]);
+    const distance = data.features[0].properties.summary.distance / 1000; //in KM
+    const duration = data.features[0].properties.summary.duration;
+    const steps = data.features[0].properties.segments[0].steps.map((step) => ({
+        distance: step.distance,
+        duration: step.duration,
+        instruction: step.instruction
+    }));
+    return NextResponse.json<GetRouteResponse>({ status: "success", data:{steps, distance, duration, coordinates} });
 }
