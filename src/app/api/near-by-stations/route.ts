@@ -1,24 +1,37 @@
 import { connectDB } from "@/app/lib/mongoose";
-import {ChargingStation} from "@/app/model/ChargingStation";
+import { ChargingStation } from "@/app/model/ChargingStation";
 import { NextResponse, NextRequest } from "next/server";
+import { NearByStationsQuerySchema } from "@/app/lib/schemas";
+import { NearByStationsResponse } from "@/app/Types";
 
 export async function GET(request: NextRequest) {
-    const searchParams = request.nextUrl.searchParams;
-    const radius = searchParams.get("radius");
-    const lat = searchParams.get("lat");
-    const lng = searchParams.get("lng");
-    
-    await connectDB();
-    const stations = await ChargingStation.find({
-      location: {
-        $near: {
-          $geometry: {
-            type: "Point",
-            coordinates: [Number(lat), Number(lng)] // Example coordinates (longitude, latitude)
-          },
-            $maxDistance: radius ? Number(radius) * 1000 : 5000 // Convert Km to meters
-        }
+  const searchParams = request.nextUrl.searchParams;
+
+  const rawParams = {
+    radius: searchParams.get("radius"),
+    lat: searchParams.get("lat"),
+    lng: searchParams.get("lng"),
+  };
+
+  const parsed = NearByStationsQuerySchema.safeParse(rawParams);
+
+  if (!parsed.success) {
+    return NextResponse.json<NearByStationsResponse>({status: "error", error: parsed.error.message});
+  }
+
+  const { radius, lat, lng } = parsed.data;
+
+  await connectDB();
+  const stations = await ChargingStation.find({
+    location: {
+      $near: {
+        $geometry: {
+          type: "Point",
+          coordinates: [Number(lat), Number(lng)]
+        },
+        $maxDistance: Number(radius) * 1000 // Convert Km to meters
       }
-    });
-    return NextResponse.json({ message: `Hello from near-by-stations API! Radius received: ${radius}`, stations });
+    }
+  });
+  return NextResponse.json<NearByStationsResponse>({ status: "success", stations });
 }
