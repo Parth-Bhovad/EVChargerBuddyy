@@ -4,22 +4,18 @@ import { auth } from "../lib/auth";
 import { headers } from "next/dist/server/request/headers";
 // import { redirect } from "next/dist/server/api-utils";\
 import { ChargingStation } from "../model/ChargingStation";
-import z from "zod";
 import { redirect } from "next/navigation";
 import { formState } from "@/app/Types";
+import { UserSignUpSchema } from "@/app/lib/schemas";
+import { UserLoginSchema } from "@/app/lib/schemas";
+import { ChargingStationSchema } from "@/app/lib/schemas";
 
 export async function SignupUser(prevState: formState, formData: FormData): Promise<formState> {
 
-    const user = z.object({
-        name: z.string().min(3).max(30).regex(/[A-Za-z][A-Za-z0-9\-]*/),
-        email: z.email(),
-        password: z.string().min(4),
-    });
-
-    const result = user.safeParse({
-        name: formData.get("username") as string,
-        email: formData.get("email") as string,
-        password: formData.get("password") as string,
+    const result = UserSignUpSchema.safeParse({
+        name: formData.get("username"),
+        email: formData.get("email"),
+        password: formData.get("password"),
     });
 
     if (!result.success) {
@@ -54,18 +50,11 @@ export async function SignupUser(prevState: formState, formData: FormData): Prom
 }
 
 export async function LoginUser(prevState: formState, formData: FormData): Promise<formState> {
-
-    const user = z.object({
-        email: z.email(),
-        password: z.string().min(4),
-    });
-
-    const result = user.safeParse({
-        email: formData.get("email") as string,
-        password: formData.get("password") as string,
+    const result = UserLoginSchema.safeParse({
+        email: formData.get("email"),
+        password: formData.get("password")
     });
     if (!result.success) {
-        console.log(result.error);
         return {
             status: "failed",
             msg: "Invalid input"
@@ -109,17 +98,10 @@ export async function LogoutUser() {
 }
 
 export async function CreateChargingStation(prevState: formState, formData: FormData): Promise<formState> {
-
-    const chargingStation = z.object({
-        stationName: z.string().optional(),
-        userLat: z.string(),
-        userLong: z.string(),
-    });
-
-    const result = chargingStation.safeParse({
-        stationName: formData.get("stationName") as string,
-        userLat: formData.get("userLat") as string,
-        userLong: formData.get("userLong") as string,
+    const result = ChargingStationSchema.safeParse({
+        stationName: formData.get("stationName"),
+        userLat: formData.get("userLat"),
+        userLong: formData.get("userLong"),
     });
 
     if (!result.success) {
@@ -139,9 +121,16 @@ export async function CreateChargingStation(prevState: formState, formData: Form
             headers: await headers(),
         });
 
+        if (!session) {
+            return {
+                status: "failed",
+                msg: "Unauthorized",
+            };
+        }
+
         await ChargingStation.create({
             stationName: stationName,
-            owner: session!.user.id,
+            owner: session.user.id,
             location: {
                 type: "Point",
                 coordinates: [
