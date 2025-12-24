@@ -16,5 +16,5 @@ export async function proxy(req: Request) {
 
 // Protect specific routes
 export const config = {
-  matcher: ["/profile"], // routes to protect
+  matcher: ["/profile", "/map", "/your-charging-stations", "/charging-station"], // routes to protect
 };
