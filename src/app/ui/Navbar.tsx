@@ -53,8 +53,6 @@ async function Navbar() {
                     <div className="mx-2 flex-1 px-2 font-bold text-2xl"><Link href="/">EVChargerBuddy</Link></div>
                     <div className="hidden flex-none lg:block">
                         <ul className="menu menu-horizontal">
-                            <li><Link href="/signup" className="font-bold">Sign Up</Link></li>
-                            <li><Link href="/login" className="font-bold">Log In</Link></li>
                             <li><Link href="/profile" className="font-bold">Profile</Link></li>
                             <li><Link href="/charging-station" className="font-bold">Add Charging Station</Link></li>
                             <li><Link href="/map" className="font-bold">View Map</Link></li>
@@ -73,8 +71,6 @@ async function Navbar() {
                                 <label htmlFor="my-drawer-5" aria-label="close sidebar" className="drawer-overlay"></label>
                                 <ul className="menu bg-[var(--brand-color-black)] text-[var(--brand-color-white)] min-h-full w-80 p-4">
                                     {/* Sidebar content here */}
-                                    <li><Link href="/signup" className="font-bold">Sign Up</Link></li>
-                                    <li><Link href="/login" className="font-bold">Log In</Link></li>
                                     <li><Link href="/profile" className="font-bold">Profile</Link></li>
                                     <li><Link href="/charging-station" className="font-bold">Add Charging Station</Link></li>
                                     <li><Link href="/map" className="font-bold">View Map</Link></li>
