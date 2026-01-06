@@ -5,37 +5,11 @@ import { CreateChargingStation } from "../lib/action";
 import StationNameInput from "./StationNameInput";
 import { useActionState } from "react";
 import { formState } from "@/app/Types";
-import { useState } from "react";
+import { useGetLocation } from "@/app/hooks/useGetLocation";
 
 function ChargingStation() {
-    const [gettingLocation, setGettingLocation] = useState(false);
-    const [gotLocation, setGotLocation] = useState(false);
     const [msg, formAction, pending] = useActionState<formState, FormData>(CreateChargingStation, { status: "idle", msg: "" });
-    const getLocation = () => {
-        if (navigator.geolocation) {
-            setGettingLocation(true);
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const lat = position.coords.latitude;
-                    const long = position.coords.longitude;
-
-                    const userLatInput = document.querySelector<HTMLInputElement>("#userLat")!;
-                    userLatInput.value = lat.toString();
-                    const userLongInput = document.querySelector<HTMLInputElement>("#userLong")!;
-                    userLongInput.value = long.toString();
-                    setGettingLocation(false);
-                    setGotLocation(true);
-                    console.log("coordinats:", [lat, long]);
-                },
-                (error) => {
-                    console.error("Error getting location:", error);
-                    setGettingLocation(false);
-                    setGotLocation(false);
-                }
-            );
-        }
-    };
-
+    const { latRef, longRef, gettingLocation, gotLocation, getLocation } = useGetLocation();
     return (
         <section className="h-screen">
             <fieldset className="fieldset border-base-300 rounded-box w-xs border p-4">
@@ -43,8 +17,8 @@ function ChargingStation() {
                     <div className="my-2">
                         <StationNameInput />
                     </div>
-                    <input type="hidden" name="userLat" id="userLat" />
-                    <input type="hidden" name="userLong" id="userLong" />
+                    <input type="hidden" name="userLat" id="userLat" ref={latRef} />
+                    <input type="hidden" name="userLong" id="userLong" ref={longRef} />
 
 
                     <div className="my-2">
