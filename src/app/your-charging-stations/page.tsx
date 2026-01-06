@@ -1,26 +1,12 @@
-import { ChargingStation } from "@/app/model/ChargingStation";
-import { connectDB } from "../lib/mongoose";
 import YourChargingStations from "../ui/YourChargingStations";
-import { auth } from "@/app/lib/auth";
-import { headers } from "next/headers";
-import { ChargingStationProps } from "../Types";
+import { getSessionUser } from "../lib/session";
+import { getChargingStationsByOwner } from "../lib/queries";
+import { redirect } from "next/navigation";
 
 async function page() {
-    const session = await auth.api.getSession({
-        headers: await headers() // you need to pass the headers object.
-    })
-    await connectDB();
-    
-    const rawData = await ChargingStation.find({ owner: session?.user?.id });
-    
-    const chargingStations: ChargingStationProps = rawData.map(station => {
-        return {
-            stationName: station.stationName,
-            location: station.location.coordinates,
-            owner: station.owner
-        }
-    })
-    
+    const user = await getSessionUser();
+    if (!user) return redirect("/login");
+    const chargingStations = await getChargingStationsByOwner(user.id);
     return (
         <main className="h-screen">
             <h1 className="text-2xl font-semibold my-3 text-[var(--brand-color-black)] text-center">Your Charging Stations</h1>
