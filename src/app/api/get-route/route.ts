@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
     const coordinates = coords.map((coord: [number, number]) => [coord[1], coord[0]]);
     const distance = data.features[0].properties.summary.distance / 1000; //in KM
     const duration = data.features[0].properties.summary.duration;
-    const steps = data.features[0].properties.segments[0].steps.map((step) => ({
+    const steps = data.features[0].properties.segments[0].steps.map((step: {distance: number, duration: number, instruction: string}) => ({
         distance: step.distance,
         duration: step.duration,
         instruction: step.instruction
