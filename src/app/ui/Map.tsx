@@ -19,14 +19,13 @@ L.Icon.Default.mergeOptions({
 
 const LeafletMap = () => {
   const { stations } = useNearByStationsContext();
-  const position: [number, number] = [19.6967, 72.7655];
   const { polyline, stationDistance, destinationTime } = useMap();
   const { userLocation } = useUserLocationContext();
   const { userDestination, setUserDestination } = useUserDestinationContext();
 
   return (
     <MapContainer
-      center={position}
+      center={[19.6967, 72.7655]}
       zoom={13}
       style={{ height: '100%', width: '100%', borderRadius: '12px', zIndex: 40 }}
       scrollWheelZoom={true}
