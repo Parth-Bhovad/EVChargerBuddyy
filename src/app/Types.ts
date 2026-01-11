@@ -10,6 +10,7 @@ export type RouteSteps = Array<{
 }>;
 
 export type ChargingStationProps = Array<{
+    id: string;
     stationName: string;
     location: [number, number];
     owner: string;
