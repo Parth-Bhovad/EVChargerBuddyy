@@ -5,14 +5,17 @@ import { useMapEvents } from 'react-leaflet/hooks'
 import { useUserLocationContext } from '../context/UserLocationContext';
 
 function LocationMarker() {
-    const { userLocation, setUserLocation } = useUserLocationContext();
+    const { userLocation, setUserLocation, setGettingUserLocation } = useUserLocationContext();
     const map = useMapEvents({
         click() {
-            map.locate()
+            if (!userLocation) {
+                setGettingUserLocation(true);
+                map.locate();
+            }
         },
         locationfound(e) {
-            const userCurrentPointer = [e.latlng.lat, e.latlng.lng].join(',');
-            if (userLocation?.join(',') !== userCurrentPointer) {
+            if (!userLocation) {
+                setGettingUserLocation(false)
                 setUserLocation([e.latlng.lat, e.latlng.lng])
                 map.flyTo(e.latlng, map.getZoom())
             };
