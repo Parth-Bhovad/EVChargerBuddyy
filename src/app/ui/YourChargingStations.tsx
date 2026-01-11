@@ -8,14 +8,14 @@ function YourChargingStations({ chargingStations }: { chargingStations: Charging
                 {/* head */}
                 <thead className="w-full text-[var(--brand-color-black)]">
                     <tr>
-                        <th></th>
+                        <th>Sr. no</th>
                         <th>Station Name</th>
                         <th>Location</th>
                     </tr>
                 </thead>
                 <tbody>
                     {chargingStations.map((station, idx) => (
-                        <tr key={idx + 1} className="list-row hover:bg-stone-200 font-medium">
+                        <tr key={station.id} className="list-row hover:bg-stone-200 font-medium">
                             <th>{idx + 1}</th>
                             <td>{station.stationName}</td>
                             <td>{station.location.join(", ")}</td>
