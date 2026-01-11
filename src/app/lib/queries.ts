@@ -8,6 +8,7 @@ export async function getChargingStationsByOwner(userId: string): Promise<Chargi
   const rawData = await ChargingStation.find({ owner: userId }).lean();
 
   return rawData.map(station => ({
+    id: station._id.toString(),
     stationName: station.stationName,
     location: station.location.coordinates,
     owner: station.owner,
