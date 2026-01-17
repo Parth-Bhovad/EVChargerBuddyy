@@ -8,6 +8,7 @@ import { useNearByStationsContext } from '../context/NearByStationsContext';
 import useMap from '../hooks/useMap';
 import { useUserDestinationContext } from '../context/UserDestinationContext';
 import { useUserLocationContext } from '../context/UserLocationContext';
+// import LiveLocation from './LiveLocation';
 
 const limeOptions = { color: 'blue' }
 
@@ -55,6 +56,7 @@ const LeafletMap = () => {
         </Marker>
       ))}
       <LocationMarker />
+      {/* <LiveLocation /> */}
       {userDestination && userLocation && (
         <Polyline pathOptions={limeOptions} positions={polyline}>
           <Tooltip direction="bottom" offset={[0, 20]} opacity={1} permanent position={userDestination}>
