@@ -32,6 +32,8 @@ function LocationMarker() {
 
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
+            console.log("[lat,lng]: ", [lat, lng]);
+            
             setUserLocation([lat, lng]);
             map.flyTo([lat, lng], map.getZoom())
         }
@@ -40,16 +42,24 @@ function LocationMarker() {
             console.warn(`ERROR(${err.code}): ${err.message}`);
         }
         function handleUserLiveLocationChanges() {
-            if (ShowRouteInfo===true) {
+            if (ShowRouteInfo === true) {
                 console.log(ShowRouteInfo);
-                
-                watchIdRef.current = navigator.geolocation.watchPosition(success, error);
+
+                watchIdRef.current = navigator.geolocation.watchPosition(
+                    success,
+                    error,
+                    {
+                        enableHighAccuracy: true,
+                        maximumAge: 0,
+                        timeout: 10000,
+                    }
+                );
                 console.log("Started watching position with id:", watchIdRef.current);
-            } 
-            
-            if(ShowRouteInfo===false) {
+            }
+
+            if (ShowRouteInfo === false) {
                 console.log("Clearing watch with id:", watchIdRef.current);
-                if(watchIdRef.current) {
+                if (watchIdRef.current) {
                     console.log("Clearing watch with id:", watchIdRef.current);
                     navigator.geolocation.clearWatch(watchIdRef.current);
                     watchIdRef.current = null;
