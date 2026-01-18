@@ -8,6 +8,7 @@ import { NearByStationsProvider } from "./context/NearByStationsContext";
 import UserDestinationProvider from "./context/UserDestinationContext";
 import ShowRouteInfoProvider from "./context/ShowRouteInfoContext";
 import RouteStepsProvider from "./context/RouteStepsContext";
+import {TravelDistanceAndTimeProvider} from "./context/TravelDistanceAndTimeContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,9 +40,11 @@ export default function RootLayout({
             <UserDestinationProvider>
               <ShowRouteInfoProvider>
                 <RouteStepsProvider>
+                  <TravelDistanceAndTimeProvider>
                   <Navbar />
                   <main className="min-h-[calc(100vh-8rem)]">{children}</main>
                   <Footer />
+                  </TravelDistanceAndTimeProvider>
                 </RouteStepsProvider>
               </ShowRouteInfoProvider>
             </UserDestinationProvider>
