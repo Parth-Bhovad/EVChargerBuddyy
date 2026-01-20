@@ -5,6 +5,7 @@ export function useGetLocation(): {
     latRef: React.RefObject<HTMLInputElement | null>;
     longRef: React.RefObject<HTMLInputElement | null>;
     gettingLocation: boolean;
+    setGotLocation: React.Dispatch<React.SetStateAction<boolean>>;
     gotLocation: boolean;
     getLocation: () => void;
 } {
@@ -33,7 +34,7 @@ export function useGetLocation(): {
         }
     };
     return (
-        { latRef, longRef, gettingLocation, gotLocation, getLocation }
+        { latRef, longRef, gettingLocation, gotLocation, getLocation, setGotLocation }
     );
 }
 
