@@ -4,15 +4,11 @@ import EmailInput from "./EmailInput";
 import PasswordInput from "./PasswordInput";
 import Button from "./Button";
 import { LoginUser } from "../lib/action";
-import { redirect } from "next/navigation";
 import {formState} from "@/app/Types";
 
 
 function Login() {
     const [msg, formAction, pending] = useActionState<formState, FormData>(LoginUser, { status: "", msg: "" });
-    if (msg.status === "success") {
-        redirect("/profile");
-    }
     return (
         <fieldset className="fieldset border-base-300 rounded-box w-xs border p-4">
             <form action={formAction} className="grid">
