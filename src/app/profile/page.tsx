@@ -10,8 +10,10 @@ async function ProfilePage() {
   }
 
   return (
-    <main className="max-w-[520px] mx-auto mt-12 p-5 h-screen flex flex-col items-center relative">
-      <Profile name={user.name} />
+    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 px-4 py-8 md:py-12">
+      <div className="max-w-lg mx-auto">
+        <Profile name={user.name} />
+      </div>
     </main>
   );
 }

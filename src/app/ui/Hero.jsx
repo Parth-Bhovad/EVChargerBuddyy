@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 function Hero() {
     return (
@@ -28,7 +29,7 @@ function Hero() {
                         A community-powered EV charging network.
                     </p>
 
-                    <button className="btn bg-[var(--brand-color-black)] text-[var(--brand-color-white)]">Get Started</button>
+                    <Link href="/signup" className="btn bg-[var(--brand-color-black)] text-[var(--brand-color-white)]">Get Started</Link>
                 </div>
             </div>
 

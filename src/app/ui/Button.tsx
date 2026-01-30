@@ -11,10 +11,10 @@ function Button({ btnName, btnType = "button", onClick, loading = false }: Butto
     return (
         <button
             type={btnType}
-            className="btn btn-block rounded-box font-bold text-[var(--brand-color-white)]"
+            className="btn btn-block bg-[var(--brand-color-black)] hover:bg-gray-800 text-white font-semibold py-3 rounded-xl transition-all duration-200 hover:shadow-lg disabled:opacity-50"
             onClick={onClick}
-            >
-
+            disabled={loading}
+        >
             {loading ? <Loading /> : btnName}
         </button>
     );
