@@ -36,10 +36,6 @@ export async function SignupUser(prevState: formState, formData: FormData): Prom
                 password, // required
             },
         });
-        return {
-            status: "success",
-            msg: "User Registered Successfully"
-        };
     } catch (error) {
         console.error("Error during sign up:", error);
         return {
@@ -47,6 +43,9 @@ export async function SignupUser(prevState: formState, formData: FormData): Prom
             msg: "Error during sign up"
         };
     }
+    
+    // Redirect outside try-catch to allow Next.js redirect to work properly
+    redirect("/profile");
 }
 
 export async function LoginUser(prevState: formState, formData: FormData): Promise<formState> {
@@ -72,10 +71,6 @@ export async function LoginUser(prevState: formState, formData: FormData): Promi
             // This endpoint requires session cookies.
             headers: await headers(),
         });
-        return {
-            status: "success",
-            msg: "User Logged In Successfully"
-        };
     } catch (error) {
         console.error("Error during login:", error);
         return {
@@ -83,6 +78,9 @@ export async function LoginUser(prevState: formState, formData: FormData): Promi
             msg: "Invalid email or password"
         };
     }
+    
+    // Redirect outside try-catch to allow Next.js redirect to work properly
+    redirect("/profile");
 }
 
 export async function LogoutUser() {
@@ -144,10 +142,11 @@ export async function CreateChargingStation(prevState: formState, formData: Form
             msg: "Charging Station Created Successfully"
         };
     } catch (error) {
-        console.error("Error during creating charging station:", error);
+        const name = error instanceof Error ? error.name : "Unknown error";
+        console.log("Error during creating charging station:",name);
         return {
             status: "failed",
-            msg: "Error during creating charging station"
+            msg: name === "ValidationError" ? "Invalid location coordinates" : "Error during creating charging station"
         };
     }
 }
