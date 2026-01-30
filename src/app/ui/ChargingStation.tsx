@@ -16,6 +16,13 @@ function ChargingStation() {
     const [msg, formAction, pending] = useActionState<formState, FormData>(CreateChargingStation, { status: "idle", msg: "" });
     const { latRef, longRef, gettingLocation, gotLocation, getLocation, setGotLocation } = useGetLocation();
     const [showMap, setShowMap] = useState<boolean>(false);
+
+    const handleLocationReset = () => {
+        setGotLocation(false);
+        setShowMap(false);
+        if (latRef.current) latRef.current.value = "";
+        if (longRef.current) longRef.current.value = "";
+    }
     return (
         <section className="h-screen">
             <fieldset className="fieldset border-base-300 rounded-box w-xs border p-4">
@@ -31,7 +38,7 @@ function ChargingStation() {
                         {gotLocation ? (
 
                             <>
-                                <Button btnName="Click here to change location" onClick={() => setGotLocation(false)} />
+                                <Button btnName="Click here to change location method" onClick={handleLocationReset} />
                                 <div role="alert" className="alert alert-success alert-dash my-4">
                                     <span>Location Selected</span>
                                 </div>
