@@ -6,14 +6,10 @@ import Button from "./Button";
 import { SignupUser } from "../lib/action";
 import { useActionState } from "react";
 import { formState } from "../Types";
-import { redirect } from "next/navigation";
 
 
 function Signup() {
     const [msg, formAction, pending] = useActionState<formState, FormData>(SignupUser, { status: "", msg: "" });
-    if (msg.status === "success") {
-        redirect("/profile");
-    }
     return (
         <fieldset className="fieldset border-base-300 rounded-box w-xs border p-4">
             <form action={formAction} className="grid">
